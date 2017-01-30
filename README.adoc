@@ -1,0 +1,54 @@
+= Lgen
+
+This is a tiny tool that does nothing more than exposing two metrics on an endpoint `<host>:8080/metrics` in
+the simple Prometheus text format.
+
+The ides is to have this as a test image for e.g. the
+https://github.com/hawkular/hawkular-openshift-agent[Hawkular OpenShift Agent] to simulate many running containers
+ that expose metrics and which have a delay in returning due to load on the application.
+
+== Compiling
+
+After you got the source checked out, go to
+
+[source, shell]
+----
+$ cd $GOPATH/src/github.com/pilhuhn/lgen
+$ go build lgen.go
+----
+
+If you are not no Linux/amd86 you want to use evn vars to set this target
+
+
+[source, shell]
+----
+$ GOOS=linux GOARCH=amd64 go build lgen.go
+----
+
+== Creating the image
+
+Just run
+
+[source, shell]
+----
+docker build -t <mytag> .  # <1>
+----
+<1> <mytag> is the image name
+
+
+== Deploy to OpenShift
+
+If you don't want to compile and use your own image, you can use mine from docker hub via:
+
+[source, shell]
+----
+$ oc new-app -f deploy-lgen-openshift.yml
+----
+
+Of if you have created an image above
+
+[source, shell]
+----
+oc process -f deploy-lgen-openshift.yml IMAGE_NAME=<my_tag> | oc create -f - # <1>
+----
+<1> <mytag> is the image name from above.
