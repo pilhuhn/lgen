@@ -27,7 +27,7 @@ objects:
         - name: metric_without_timestamp_and_labels
           type: gauge
         - name: metric_without_timestamp_and_labels2
-          type: gauge
+        - name: metric_with_label
 - apiVersion: v1
   kind: ImageStream
   metadata:
@@ -35,7 +35,7 @@ objects:
     labels:
       app: lgen
   spec:
-    dockerImageRepository: ${IMAGE_NAME}
+    dockerImageRepository: ${IMAGE_NAME}:latest
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
@@ -91,3 +91,15 @@ objects:
           kind: ImageStreamTag
           name: lgen-is:latest
       type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: lgen
+    labels:
+      app: lgen
+  spec:
+    ports:
+      - protocol: TCP
+        port: 8080
+    selector:
+      app: lgen

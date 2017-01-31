@@ -1,9 +1,9 @@
 = Lgen
 
-This is a tiny tool that does nothing more than exposing two metrics on an endpoint `<host>:8080/metrics` in
+This is a tiny tool that does nothing more than exposing three metrics on an endpoint `<host>:8080/metrics` in
 the simple Prometheus text format.
 
-The ides is to have this as a test image for e.g. the
+The idea is to have this as a test image for e.g. the
 https://github.com/hawkular/hawkular-openshift-agent[Hawkular OpenShift Agent] to simulate many running containers
  that expose metrics and which have a delay in returning due to load on the application.
 
